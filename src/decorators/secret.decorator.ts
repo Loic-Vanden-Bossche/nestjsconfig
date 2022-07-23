@@ -1,7 +1,7 @@
 import "reflect-metadata";
 
 const Secret = () => {
-  return (target: Record<string, unknown>, propertyKey: string) => {
+  return <T>(target: T, propertyKey: string) => {
     Reflect.defineMetadata(
       `custom:isSecret:${propertyKey}`,
       true,

@@ -20,7 +20,7 @@ const IsPortNumber = (validationOptions?: ValidationOptions) => {
   };
 };
 
-const isPortNumber = (value: unknown) => {
+const isPortNumber = (value: string | number) => {
   return Number.isInteger(value) && value >= 1 && value <= 65535;
 };
 

@@ -1,9 +1,14 @@
-import * as dayjs from "dayjs";
+import dayjs from "dayjs";
 import * as fs from "fs";
 import * as path from "path";
 import { getDesc, getIsSecret, getValidators } from "./metadata";
 import { ClassConstructor } from "class-transformer";
-import { toTitleCase } from "@boilerplate/utils";
+
+const toTitleCase = (str: string) => {
+  return str.replace(/\w\S*/g, (txt: string) => {
+    return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+  });
+};
 
 class ConfigLine {
   key = "";
@@ -57,7 +62,7 @@ const generateTable = (docConfig: ConfigLine[]): string => {
           "| " +
           headers
             .map((h) => {
-              const value = configLine[h];
+              const value = configLine[h as keyof ConfigLine];
               if (Array.isArray(value)) {
                 return value.join(", ");
               }

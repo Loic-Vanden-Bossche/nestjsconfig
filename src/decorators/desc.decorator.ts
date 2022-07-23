@@ -1,7 +1,7 @@
 import "reflect-metadata";
 
-const Desc = (description: string) => {
-  return (target: Record<string, unknown>, propertyKey: string) => {
+const Desc = <T>(description: string) => {
+  return (target: T, propertyKey: string) => {
     Reflect.defineMetadata(
       `custom:description:${propertyKey}`,
       description,

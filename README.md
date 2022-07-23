@@ -81,7 +81,7 @@ const UseDefault = () => BaseUseDefault(defaultConfig);
 
 export class ConfigEnvironmentDto {
   //Base config
-  @Validator(isPortNumber)
+  @ConfigValidators(isPortNumber)
   @Expose()
   @UseDefault()
   @UseEnvPort()
@@ -89,34 +89,34 @@ export class ConfigEnvironmentDto {
   @Desc('Port to listen on')
   AP_APP_PORT: number;
 
-  @Validator(isEnum, Environment)
+  @ConfigValidator(isEnum, Environment)
   @Expose()
   @UseDefault()
   @Desc('Environment to run in')
   AP_APP_ENV: Environment;
 
-  @Validator(isBoolean)
+  @ConfigValidators(isBoolean)
   @Expose()
   @UseDefault()
   @TransformBoolean()
   @Desc('Enable debug mode')
   AP_APP_VERBOSE: boolean;
 
-  @Validator(isUrlArray)
+  @ConfigValidators(isUrlArray)
   @Expose()
   @TransformArray()
   @UseDefault()
   @Desc('List of urls to proxy')
   AP_APP_URLS_WHITELIST: string[];
 
-  @Validator(isString)
+  @ConfigValidators(isString)
   @Expose()
   @UseDefault()
   @Desc('Path of the frontend')
   AP_APP_FRONTEND_URL: string;
 
   // Database
-  @Validator(isString)
+  @ConfigValidators(isString)
   @Expose()
   @UseDefault()
   @Desc('Database host')
@@ -147,27 +147,27 @@ export class ConfigEnvironmentDto {
   AP_DB_PORT: number | null;
 
   // SSL
-  @Validator(isBoolean)
+  @ConfigValidators(isBoolean)
   @Expose()
   @TransformBoolean()
   @UseDefault()
   @Desc('Is database ssl enabled')
   AP_SSL_ENABLED: boolean;
 
-  @Validator(isString)
+  @ConfigValidators(isString)
   @Expose()
   @UseDefault()
   @Desc('Database ssl key path')
   AP_SSL_KEY_PATH: string;
 
-  @Validator(isString)
+  @ConfigValidators(isString)
   @Expose()
   @UseDefault()
   @Desc('Database ssl cert path')
   AP_SSL_CERT_PATH: string;
 
   // JWT
-  @Validator(isString)
+  @ConfigValidators(isString)
   @Expose()
   @UseDefault()
   @Desc('JWT secret')
@@ -216,6 +216,19 @@ export const defaultConfig: ConfigEnvironmentDto = {
 };
 ```
 
+Use it in your application `getConfig()`  
+In my case I used it in a custom function, but you can use it directly in the config service loader.
+
+```typescript
+const loadAPIConfig = async (): Promise<{
+  config: APIConfig;
+  sslOptions: NestApplicationOptions;
+}> => {
+  const config = getConfig(process.env);
+  return { config, sslOptions: await getSSLOptions(config.ssl) };
+};
+```
+
 ## License
 
-NestJSConfig is licensed under a [MIT License](./LICENSE).
+NestJSConfig is licensed under a [MIT License](./LICENSE.md).

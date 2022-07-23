@@ -31,16 +31,18 @@ const registerValidator = (
   });
 };
 
-export const Validator = (validator: ValidatorFunction, ...args: unknown[]) => {
+const ConfigValidator = (validator: ValidatorFunction, ...args: unknown[]) => {
   return (object: any, propertyName: string) => {
     registerValidator(object, propertyName, validator, ...args);
   };
 };
 
-export const ConfigValidators = (...validators: Array<ValidatorFunction>) => {
+const ConfigValidators = (...validators: Array<ValidatorFunction>) => {
   return (object: any, propertyName: string) => {
     validators.forEach((validator) =>
       registerValidator(object, propertyName, validator)
     );
   };
 };
+
+export { ConfigValidator, ConfigValidators };
