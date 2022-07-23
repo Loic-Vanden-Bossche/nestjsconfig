@@ -1,5 +1,10 @@
 {
   "name": "nestjs-env-config",
+  "author": {
+    "email": "l.vandenbossche.jouvet@gmail.com",
+    "name": "Loïc Vanden Bossche",
+    "url": "https://github.com/Loic-Vanden-Bossche"
+  },
   "version": "0.1.0",
   "dependencies": {
     "@nestjs/common": "^9.0.5",
