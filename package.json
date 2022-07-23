@@ -5,7 +5,7 @@
     "name": "Loïc Vanden Bossche",
     "url": "https://github.com/Loic-Vanden-Bossche"
   },
-  "version": "0.1.0",
+  "version": "0.2.0",
   "dependencies": {
     "@nestjs/common": "^9.0.5",
     "class-transformer": "^0.5.1",
