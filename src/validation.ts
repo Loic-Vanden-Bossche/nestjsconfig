@@ -1,13 +1,13 @@
 import { validateSync } from "class-validator";
 import { getSecretKeys } from "./metadata";
 import { ClassConstructor, plainToClass } from "class-transformer";
-import {Logger} from "@nestjs/common";
+import * as chalk from "chalk";
 
 export const validateConfig = <T>(
   dto: ClassConstructor<T>,
   defaultConfig: T,
   envConfig: Record<string, unknown>,
-  logger: Logger
+  silent = false
 ): T => {
   const validatedConfig = plainToClass(dto, envConfig, {
     strategy: "excludeAll",
@@ -18,31 +18,36 @@ export const validateConfig = <T>(
   });
 
   if (errors.length > 0) {
-    logger.error("Some errors happened while validating the configuration:");
+    console.error(
+      chalk.red("Some errors happened while validating the configuration:")
+    );
     errors
       .flatMap((error) =>
         Object.values(error.constraints || {}).map(
-          (e) => `${e} - ${error.value}`
+          (e) =>
+            `${chalk.red(e)} ${chalk.white("-")} ${chalk.blue(error.value)}`
         )
       )
-      .forEach((e) => logger.error(e));
+      .forEach((e) => console.error(e));
     throw new Error("Invalid configuration");
   }
 
   const secretKeys = getSecretKeys(dto, defaultConfig);
 
-  logger.log(
+  if (!silent) {
     Object.keys(validatedConfig)
       .map(
         (key) =>
-          `\n${key}: ${
+          `\n${chalk.white.bold("[")}${chalk.magenta(key)}${chalk.white.bold(
+            "]"
+          )}: ${chalk.blue(
             secretKeys.indexOf(key) !== -1
               ? "****"
               : (validatedConfig as Record<string, unknown>)[key]
-          }`
+          )}`
       )
-      .join()
-  );
+      .join();
+  }
 
   return validatedConfig;
 };
