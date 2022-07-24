@@ -25,7 +25,7 @@ export const validateConfig = <T>(
       .flatMap((error) =>
         Object.values(error.constraints || {}).map(
           (e) =>
-            `${chalk.red(e)} ${chalk.white("-")} ${chalk.blue(error.value)}`
+            `${chalk.red(e)} - ${chalk.blue(error.value)}`
         )
       )
       .forEach((e) => console.error(e));
@@ -38,9 +38,7 @@ export const validateConfig = <T>(
     Object.keys(validatedConfig)
       .map(
         (key) =>
-          `\n${chalk.white.bold("[")}${chalk.magenta(key)}${chalk.white.bold(
-            "]"
-          )}: ${chalk.blue(
+          `\n[${chalk.magenta(key)}]: ${chalk.blue(
             secretKeys.indexOf(key) !== -1
               ? "****"
               : (validatedConfig as Record<string, unknown>)[key]
