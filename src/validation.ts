@@ -1,14 +1,14 @@
 import { validateSync } from "class-validator";
 import { getSecretKeys } from "./metadata";
-import { Logger } from "@nestjs/common";
 import { ClassConstructor, plainToClass } from "class-transformer";
+import {Logger} from "@nestjs/common";
 
 export const validateConfig = <T>(
   dto: ClassConstructor<T>,
   defaultConfig: T,
-  envConfig: Record<string, unknown>
+  envConfig: Record<string, unknown>,
+  logger: Logger
 ): T => {
-  const logger = new Logger("Config");
   const validatedConfig = plainToClass(dto, envConfig, {
     strategy: "excludeAll",
   });

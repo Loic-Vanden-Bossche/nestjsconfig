@@ -46,7 +46,7 @@ export interface DatabaseConfig {
 }
 
 export const getConfig = (env: Record<string, unknown>): APIConfig => {
-    const config = validateConfig(ConfigEnvironmentDto, defaultConfig, env);
+    const config = validateConfig(ConfigEnvironmentDto, defaultConfig, env, new Logger('Config'));
 
     return {
         port: config.AP_APP_PORT,
