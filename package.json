@@ -1,6 +1,6 @@
 {
   "name": "nestjs-env-config",
-  "version": "0.3.8",
+  "version": "0.3.9",
   "author": {
     "email": "l.vandenbossche.jouvet@gmail.com",
     "name": "Loïc Vanden Bossche",
